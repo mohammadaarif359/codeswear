@@ -46,12 +46,10 @@ function MyApp({ Component, pageProps }) {
 	// set setAdminRoute
 	if(router.pathname.includes("/admin")) {
 		setAdminRoute(true);
-		console.log('if admin route',adminRoute);
 	} else {
 		setAdminRoute(false);
-		console.log('else admin route',adminRoute);
 	}
-  }, [router.query])
+  }, [router.query,router.pathname])
   
   // save cart data to localstorage
   const saveCart = (myCart) => {

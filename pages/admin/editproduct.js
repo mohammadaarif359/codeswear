@@ -57,7 +57,7 @@ const EditProduct = () => {
 	  }	  
     }
 	fetchProductData();
-  }, [router]); 	
+  }, [router,productId]); 	
   // handleSubmit
   const handleSubmit = async(e) =>{
 	e.preventDefault();

@@ -17,7 +17,7 @@ export default function Home() {
         }
       `}</style>
       <div>
-        <img src='/homeimg.webp' className='homeimg'/>
+        <img src='/homeimg.webp' alt="codeswear" className='homeimg'/>
       </div>
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">

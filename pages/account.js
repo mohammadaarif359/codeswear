@@ -58,7 +58,7 @@ const Account = ({user}) => {
     } else {
 		fetchUserData();
 	}
-  }, [])
+  }, [router])
   
   // update user data
   const updateUserData = async() =>{

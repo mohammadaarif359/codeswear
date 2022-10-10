@@ -87,7 +87,7 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
 		document.body.appendChild(script)
     }
 	addPaypalScript()	
-  }, []); 
+  }, [sdkReady]); 
 	
   
   const checkoutPayment = async(e)=>{

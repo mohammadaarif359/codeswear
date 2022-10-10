@@ -17,14 +17,13 @@ const Orders = () => {
      });  
      const orderData = await res.json();
 	 setOrders(orderData.data);
-	 console.log('orders',orders)
 	}
 	if(!localStorage.getItem('myuser')) {
 	  router.push('/login')
     } else {
 		fetchOrders();
 	}
-  }, [])
+  }, [router,])
   return (
     <div className="container mx-auto">
 	  <h1 className="font-bold text-xl p-6">My Orders</h1> 

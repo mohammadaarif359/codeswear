@@ -14,7 +14,7 @@ const Header = ({ logout,sx, customClass, toggleMobileSidebar, position }) => {
 	if(!localStorage.getItem('myuser')) {	
 	  router.push('/login')
     }
-  }, [])	
+  }, [router])	
   return (
     <AppBar sx={sx} position={position} elevation={0} className={customClass}>
       <Toolbar>

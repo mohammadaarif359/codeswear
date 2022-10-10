@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 const mongoose = require('mongoose');
 import Product from '../../models/Product'
 const sizeArr = ['S','M','L','XL','XXL'];
@@ -74,7 +75,7 @@ const Slug = ({buyNow,addToCart,product,variants}) => {
           pauseOnHover/>
         <div className="container px-5 py-16 mx-auto">
           <div className="lg:w-4/5 mx-auto flex flex-wrap">
-            <img alt="ecommerce" className="lg:w-1/2 w-full px-24 lg:h-auto object-cover object-top rounded" src={product.img} />
+            <Image alt="ecommerce" className="lg:w-1/2 w-full px-24 lg:h-auto object-cover object-top rounded" src={product.img} />
               <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                 <h2 className="text-sm title-font text-gray-500 tracking-widest">Codeswear.com</h2>
                 <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product.title} ({product.size}/{product.color})</h1>
