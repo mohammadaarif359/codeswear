@@ -10,7 +10,7 @@ const Footer = () => {
                     <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
                         <Link href={"/"}>
                         <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
-                            <Image src='/logo.webp' height="40" width="220"/>
+                            <Image src='/logo.webp' alt='codeswear' height="40" width="220"/>
                         </a>
                         </Link>
                         <p className="mt-2 text-md text-gray-500 px-45">Wear the &lt;code /&gt;</p>
