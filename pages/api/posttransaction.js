@@ -1,11 +1,11 @@
 import Order from '../../models/Order'
 import Product from '../../models/Product'
 import connectDb from '../../middleware/mongoose'
-import PaytmChecksum from '../../paytmchecksum'
+//import PaytmChecksum from '../../paytmchecksum'
  
 const handler = async(req,res) =>{
 	// check patym checksum
-	var paytmChecksum = '';
+	/*var paytmChecksum = '';
 	var patymParams = {}
 	
 	const received_data = req.body;
@@ -20,7 +20,7 @@ const handler = async(req,res) =>{
 	if (!isVerifySignature) {
 		console.log("Checksum Matched");
 		return res.status(500).json({"error":"paytm checksum not match"})
-	}
+	}*/
 	// order data set
 	let order = await Order.findOne({orderId:req.body.ORDERID});
 	if(order) {
