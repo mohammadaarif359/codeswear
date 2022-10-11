@@ -246,7 +246,7 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
         {Object.keys(cart.length == 0) && <div className='my-4 font-semibold'>Your cart is empty!</div>}
         <ol className='list-decimal font-semibold'>
           {Object.keys(cart).map((k)=>{
-            return <li>
+            return <li key={k}>
                     <div className='item flex my-3'>
                       <div className='font-semibold'>{cart[k].name} ({cart[k].size}/{cart[k].variant})</div>
                       <div className='flex font-semibold items-center justify-center w-1/3 text-lg'>

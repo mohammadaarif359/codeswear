@@ -49,7 +49,7 @@ function MyApp({ Component, pageProps }) {
 	} else {
 		setAdminRoute(false);
 	}
-  }, [router.query,router.pathname])
+  }, [router.query,router.pathname,router.events])
   
   // save cart data to localstorage
   const saveCart = (myCart) => {

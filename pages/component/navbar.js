@@ -31,7 +31,7 @@ const Navbar = ({logout,user,cart,addToCart,removeFromCart,clearCart,subTotal}) 
   return (
     <div className={`flex flex-col md:flex-row md:justify-start justify-center items-center py-2 shadow-md sticky top-0 bg-white z-10 ${!sidebar && 'over-hidden'}`}>
       <div className="logo mr-auto md:mx-5">
-        <Link href={'/'}><a><Image src="/logo.webp" alt-text="codeswear" height={40} width={200} /></a></Link>
+        <Link href={'/'}><a><Image src="/logo.webp" alt="codeswear" height={40} width={200} /></a></Link>
       </div>
       <div className="nav">
         <ul className="flex items-center space-x-8 font-bold md:text-md">
