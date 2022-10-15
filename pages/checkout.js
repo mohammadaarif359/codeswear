@@ -59,7 +59,8 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
   }
   useEffect(() => {
 	const fetchUserData = async() =>{
-	  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/getuser`,{
+	  //const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/getuser`,{
+     const res = await fetch('/api/getuser',{
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({token:JSON.parse(localStorage.getItem('myuser')).token})
