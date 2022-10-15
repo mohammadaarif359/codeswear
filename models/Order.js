@@ -22,7 +22,7 @@ const orderSchema = new mongoose.Schema({
     },
     status : {
         type:String,
-        default:'Pending',
+        default:'initiate',
         required:true
     },
 	paymentInfo: {
@@ -32,6 +32,10 @@ const orderSchema = new mongoose.Schema({
 	address:{
 		type:String,
 		required:true
+	},
+	deliveryStatus:{
+		type:String,
+		default:'unshipped'
 	}
 },{
     timestamps:true

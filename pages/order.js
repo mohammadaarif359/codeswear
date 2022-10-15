@@ -1,12 +1,17 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import { useRouter } from 'next/router';
 const mongoose = require('mongoose');
 import Order from '../models/Order';
 
-const OrderDetail = ({order}) => {
-  console.log('order',order);
+const OrderDetail = ({order,clearCart}) => {
   const router = useRouter()
   const products = order.products;
+  
+  useEffect(() => {
+	  if(router.query.cartClear && router.query.cartClear == 1) {
+		  clearCart();
+	  }
+  }, [router]);  
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div className="container px-5 py-24 mx-auto">
@@ -14,12 +19,12 @@ const OrderDetail = ({order}) => {
           <div className="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
             <h2 className="text-sm title-font text-gray-500 tracking-widest">CODESWEAR.com</h2>
             <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">Order ID : #{order.orderId}</h1>
-			<h3 className="text-gray-900 text-2xl title-font font-medium mb-4">Order At : {new Date(order.createdAt).toISOString().split('T')[0]} {new Date(order.createdAt).toLocaleTimeString()}</h3>
+			<h3 className="text-gray-900 text-2xl title-font font-medium mb-4">Order At : {new Date(order.createdAt).toISOString().split('T')[0]}</h3>
             <p className="leading-relaxed mb-4">Your order has been placed successfully. Ypur payment status is : <b>{order.status}</b></p>
             <div className="flex mb-4">
-              <a className="flex-grow text-center border-gray-300 py-2 text-lg px-1">Item Description</a>
-              <a className="flex-grow text-center border-gray-300 py-2 text-lg px-1">Qty</a>
-              <a className="flex-grow text-center  border-gray-300 py-2 text-lg px-1">Price</a>
+              <a className="flex-grow border-gray-300 py-2 text-lg px-1">Item Description</a>
+              <a className="flex-grow border-gray-300 py-2 text-lg px-1">Qty</a>
+              <a className="flex-grow border-gray-300 py-2 text-lg px-1">Price</a>
             </div>
 			{Object.keys(products).map((key)=>{
 				return <div key={key} className="flex border-t border-gray-200 py-2">

@@ -18,8 +18,6 @@ const Slug = ({buyNow,addToCart,product,variants}) => {
   const [size, setSize] = useState(product.size)
 
   const refreshVaraint = (newSize,newColor) => {
-    console.log('newColor',newColor)
-    console.log('newsize',newSize)
     let url = `${process.env.NEXT_PUBLIC_HOST}/product/${variants[newColor][newSize]['slug']}`
     //window.location = url;
 	router.push(url)
@@ -178,7 +176,6 @@ export async function getServerSideProps(context) {
   if(!mongoose.connections[0].readyState) {
     const con = await mongoose.connect(process.env.MONGO_URI)
   }
-  //console.log(`MongoDB Connected : ${con.connection.host}`)
   let product = await Product.findOne({slug:context.query.slug});
   if(product == null) {
 	return {

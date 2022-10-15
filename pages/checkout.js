@@ -67,6 +67,7 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
      res = await res.json();
 	 const userData = res.data;
 	 setName(userData.name)
+	 setEmail(userData.email)
  	 setPhone(userData.phone)
 	 setAddress(userData.address)
 	 setPincode(userData.pincode)
@@ -74,19 +75,11 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
 	}
 	if(localStorage.getItem('myuser')) {
 	  fetchUserData();
-	} 	
-	const addPaypalScript = async() =>{
-		const script = document.createElement('script')
-		script.type = 'text/javascript'
-		script.src = `${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`
-		script.async = true
-		script.onload = () =>{
-		  setSdkReady(true)
-		}
-		console.log('setSdkReady',sdkReady);
-		document.body.appendChild(script)
-    }
-	addPaypalScript()	
+	}
+	// set disabled false
+	if(name && email && phone && address && pincode) {
+		setDisabled(false)
+	}
   }, [sdkReady]); 
 	
   
@@ -102,7 +95,7 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
 	const txnRes = await res.json();
 	if(txnRes.success) {
 		let txnToken = txnRes.txnToken;
-		const paymentData = {ORDERID:oid,STATUS:'TXN_SUCCESS',TXN_TOKEN:txnToken};
+		/*const paymentData = {ORDERID:oid,STATUS:'TXN_SUCCESS',TXN_TOKEN:txnToken};
 		let paymentRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/posttransaction`,{
 		  method: 'POST',
 	      headers: { 'Content-Type': 'application/json' },
@@ -133,8 +126,8 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
            draggable: true,
            progress: undefined,
 		 });		 
-	   }
-	   /*var config = {
+	   }*/
+	   var config = {
 		  "root": "",
 		  "flow": "DEFAULT",
 		  "data": {
@@ -151,12 +144,15 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
 		   }
 		 }
 		};
-		console.log('config',config)
-		window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
-		  window.Paytm.CheckoutJS.invoke();
-		}).catch(function onError(error){
-		  console.log("error => ",error);
-		});*/
+		if(window.Paytm && window.Paytm.CheckoutJS){
+			console.log('if window Paytm');
+			window.Paytm.CheckoutJS.init(config).then(function onSuccess() {
+			  console.log('if window Paytm init success');	
+			  window.Paytm.CheckoutJS.invoke();
+			}).catch(function onError(error){
+			  console.log("error => ",error);
+			});
+		}	
 	} else {
 		 toast.error(txnRes.error, {
          position: "bottom-right",
@@ -187,6 +183,7 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
           pauseOnHover/>
 	  <Head><meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0"/>
 	  </Head>
+	  <Script type="text/javascript" crossorigin="anonymous" src={`https://securegw-stage.paytm.in/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`}/>
 	  <h1 className='font-bold text-3xl my-8 text-center'>Checkout</h1>
       <h2 className='font-semibold text-xl'>1. Delivery Address</h2>
       <div className='mx-auto flex'>
@@ -199,10 +196,7 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
         <div className='px-2 w-1/2'>
           <div className="relative mb-4">
             <label htmlFor="name" className="leading-7 text-sm text-gray-600">Email</label>
-            {user && user.email ?
-			<input type="email" onChange={handleChange} value={user.email} id="email" name="email" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" readOnly/>
-			: <input type="email" onChange={handleChange} value={email} id="email" name="email" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
-			}
+            <input type="email" onChange={handleChange} value={email} id="email" name="email" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
           </div>
         </div>
       </div>

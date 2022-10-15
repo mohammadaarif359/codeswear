@@ -1,5 +1,5 @@
 const https = require('https');
-const PaytmChecksum = require("paytmchecksum");
+var PaytmChecksum = require("paytmchecksum");
 import Order from '../../models/Order'
 import Product from '../../models/Product'
 import connectDb from '../../middleware/mongoose'
@@ -67,8 +67,8 @@ const handler = async(req,res) =>{
 	    "mid"           : process.env.NEXT_PUBLIC_PAYTM_MID,
 	    "websiteName"   : "YOUR_WEBSITE_NAME",
 	    "orderId"       : req.body.oid,
-	    //"callbackUrl"   : `${prcoess.env.NEXT_PUBLIC_HOST}/api/posttransaction`,
-	    "callbackUrl"   : 'http://localhost:3000/api/posttransaction',
+	    "callbackUrl"   : '/api/posttransaction',
+	    //"callbackUrl"   : 'http://localhost:3000/api/posttransaction',
 	    "txnAmount"     : {
 	        "value"     : req.body.subTotal,
 	        "currency"  : "INR",
@@ -94,7 +94,7 @@ const handler = async(req,res) =>{
 	          /* for Production */
 	          // hostname: 'securegw.paytm.in',
 	          port: 443,
-	          path: `/theia/api/v1/initiateTransaction?mid=ImHSde55763709087118&orderId=${req.body.oid}`,
+	          path: `/theia/api/v1/initiateTransaction?mid=${process.env.NEXT_PUBLIC_PAYTM_MID}&orderId=${req.body.oid}`,
 	          method: 'POST',
 	          headers: {
 	            'Content-Type': 'application/json',
@@ -108,9 +108,8 @@ const handler = async(req,res) =>{
 		        });
 
 		        post_res.on('end', function(){
-		            //console.log('Response: ', response);
-					//resolve(JSON.parse(response).body)
-					const result = JSON.parse(response).body
+		            //resolve(JSON.parse(response).body)
+					let result = JSON.parse(response).body
 					result.success = true;
 					result.cartClear = false;
 					resolve(result)
@@ -122,6 +121,6 @@ const handler = async(req,res) =>{
 	}
 	
 	let myr = await requestAsync();
-	res.status(200).json(myr)
+	return res.status(200).json(myr)
 }
 export default connectDb(handler);

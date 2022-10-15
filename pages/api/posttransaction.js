@@ -1,11 +1,11 @@
 import Order from '../../models/Order'
 import Product from '../../models/Product'
 import connectDb from '../../middleware/mongoose'
-//import PaytmChecksum from '../../paytmchecksum'
+var PaytmChecksum = require("paytmchecksum");
  
 const handler = async(req,res) =>{
 	// check patym checksum
-	/*var paytmChecksum = '';
+	var paytmChecksum = '';
 	var patymParams = {}
 	
 	const received_data = req.body;
@@ -13,14 +13,13 @@ const handler = async(req,res) =>{
 		if(key == 'CHECKSUMHASH'){
 		  paytmChecksum = received_data[key]	
 		} else {
-		  patymParams = received_data[key]	
+		  patymParams[key] = received_data[key]	
 		}
 	}
 	var isVerifySignature = PaytmChecksum.verifySignature(patymParams, process.env.NEXT_PUBLIC_PAYTM_MKEY, paytmChecksum);
 	if (!isVerifySignature) {
-		console.log("Checksum Matched");
 		return res.status(500).json({"error":"paytm checksum not match"})
-	}*/
+	}
 	// order data set
 	let order = await Order.findOne({orderId:req.body.ORDERID});
 	if(order) {
@@ -33,7 +32,7 @@ const handler = async(req,res) =>{
 			status = 'failed';
 		}
 		order.status = status;
-		order.tansactionId = req.body.TXN_TOKEN;
+		order.tansactionId = req.body.TXN_TOKEN ? req.body.TXN_TOKEN : req.body.TXNID;
 		order.paymentInfo = JSON.stringify(req.body);
 		await order.save();
 		// set available qty
@@ -43,9 +42,9 @@ const handler = async(req,res) =>{
 				await Product.findOneAndUpdate({slug:item},{$inc: {availableQty:-products[item].qty}})
 			}
 		}
-		res.status(200).json({ success:"Order payment successfully",orderId:order._id })
+		return res.redirect('/order?cartClear=1&id='+order._id,200)
 	} else {
-		res.status(200).json({ error: 'order not found' })
+		return res.status(400).json({ error: 'order not found' })
 	}
 }
 export default connectDb(handler);

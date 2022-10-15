@@ -47,7 +47,6 @@ const Account = ({user}) => {
      });  
      res = await res.json();
 	 const userData = res.data;
-	 console.log('userData',userData)
 	 setName(userData.name)
  	 setPhone(userData.phone)
 	 setAddress(userData.address)
