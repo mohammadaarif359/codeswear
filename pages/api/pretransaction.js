@@ -1,5 +1,6 @@
 const https = require('https');
-var PaytmChecksum = require("paytmchecksum");
+//var PaytmChecksum = require("paytmchecksum");
+const PaytmChecksum = require('./PaytmChecksum');
 import Order from '../../models/Order'
 import Product from '../../models/Product'
 import connectDb from '../../middleware/mongoose'
@@ -77,8 +78,7 @@ const handler = async(req,res) =>{
 	        "custId"    : req.body.email,
 	    },
 	};
-	//const checksum = await PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body), process.env.NEXT_PUBLIC_PAYTM_MKEY)
-	const checksum = 'aarif12345678901234567890';
+	const checksum = await PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body), process.env.NEXT_PUBLIC_PAYTM_MKEY)
 	console.log('checksum',checksum);
 	
     paytmParams.head = {
@@ -124,7 +124,7 @@ const handler = async(req,res) =>{
 	}
 	
 	let myr = await requestAsync();
-	console.log('myr',myr);
+	console.log('myr',result);
 	return res.status(200).json(myr)
 }
 export default connectDb(handler);
