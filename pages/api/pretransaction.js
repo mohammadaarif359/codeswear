@@ -77,8 +77,10 @@ const handler = async(req,res) =>{
 	        "custId"    : req.body.email,
 	    },
 	};
-	const checksum = await PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body), process.env.NEXT_PUBLIC_PAYTM_MKEY)
-
+	//const checksum = await PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body), process.env.NEXT_PUBLIC_PAYTM_MKEY)
+	const checksum = 'aarif12345678901234567890';
+	console.log('checksum',checksum);
+	
     paytmParams.head = {
         "signature"    : checksum
     };
@@ -112,6 +114,7 @@ const handler = async(req,res) =>{
 					let result = JSON.parse(response).body
 					result.success = true;
 					result.cartClear = false;
+					console.log('result',result);
 					resolve(result)
 		        });
 		    });
@@ -121,6 +124,7 @@ const handler = async(req,res) =>{
 	}
 	
 	let myr = await requestAsync();
+	console.log('myr',myr);
 	return res.status(200).json(myr)
 }
 export default connectDb(handler);
