@@ -1,6 +1,6 @@
 const https = require('https');
 //var PaytmChecksum = require("paytmchecksum");
-const PaytmChecksum = require('./PaytmChecksum');
+const PaytmChecksum = require('./paytmChecksum');
 import Order from '../../models/Order'
 import Product from '../../models/Product'
 import connectDb from '../../middleware/mongoose'
