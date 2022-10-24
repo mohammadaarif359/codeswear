@@ -20,7 +20,7 @@ const OrderDetail = ({order,clearCart}) => {
             <h2 className="text-sm title-font text-gray-500 tracking-widest">CODESWEAR.com</h2>
             <h1 className="text-gray-900 text-3xl title-font font-medium mb-4">Order ID : #{order.orderId}</h1>
 			<h3 className="text-gray-900 text-2xl title-font font-medium mb-4">Order At : {new Date(order.createdAt).toISOString().split('T')[0]}</h3>
-            <p className="leading-relaxed mb-4">Your order has been placed successfully. Ypur payment status is : <b>{order.status}</b></p>
+            <p className="leading-relaxed mb-4">Your order has been placed successfully. Your payment status is : <b>{order.status}</b></p>
             <div className="flex mb-4">
               <a className="flex-grow border-gray-300 py-2 text-lg px-1">Item Description</a>
               <a className="flex-grow border-gray-300 py-2 text-lg px-1">Qty</a>

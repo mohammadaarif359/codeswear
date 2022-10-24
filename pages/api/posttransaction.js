@@ -16,12 +16,7 @@ const handler = async(req,res) =>{
 		  patymParams[key] = received_data[key]	
 		}
 	}
-	console.log('paytmChecksum',paytmChecksum);
-	console.log('patymParams',patymParams);
-	console.log('post transaction mkey');
-	
-	var isVerifySignature = PaytmChecksum.verifySignature(patymParams, 'bC#mrwr%iShdtOur', paytmChecksum);
-	console.log('isVerifySignature',isVerifySignature)
+	var isVerifySignature = PaytmChecksum.verifySignature(patymParams, process.env.NEXT_PUBLIC_PAYTM_MKEY, paytmChecksum);
 	if (!isVerifySignature) {
 		return res.status(500).json({"error":"paytm checksum not match"})
 	}
