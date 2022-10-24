@@ -123,7 +123,7 @@ const handler = async(req,res) =>{
 	}
 	
 	let myr = await requestAsync();
-	console.log('myr',result);
+	console.log('myr',myr);
 	return res.status(200).json(myr)
 }
 export default connectDb(handler);
