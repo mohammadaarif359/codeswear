@@ -72,15 +72,15 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
 	 setAddress(userData.address)
 	 setPincode(userData.pincode)
 	 getCityState(userData.pincode)
+	 // set disabled false
+	 if(name && email && phone && address && pincode) {
+		setDisabled(false)
+	 }
 	}
 	if(localStorage.getItem('myuser')) {
 	  fetchUserData();
 	}
-	// set disabled false
-	if(name && email && phone && address && pincode) {
-		setDisabled(false)
-	}
-  }, [sdkReady]); 
+  }, [name,email,phone,address,pincode]); 
 	
   
   const checkoutPayment = async(e)=>{
@@ -94,39 +94,7 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
 	});  
 	const txnRes = await res.json();
 	if(txnRes.success) {
-		let txnToken = txnRes.txnToken;
-		/*const paymentData = {ORDERID:oid,STATUS:'TXN_SUCCESS',TXN_TOKEN:txnToken};
-		let paymentRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/posttransaction`,{
-		  method: 'POST',
-	      headers: { 'Content-Type': 'application/json' },
-	      body: JSON.stringify(paymentData)
-	   });  
-	   paymentRes = await paymentRes.json();
-	   if(paymentRes.success) {
-		 toast.success(paymentRes.success, {
-           position: "bottom-right",
-           autoClose: 1000,
-           hideProgressBar: false,
-           closeOnClick: true,
-           pauseOnHover: true,
-           draggable: true,
-           progress: undefined,
-		});
-		// clear cart
-		clearCart();
-		// redirect to order page
-        router.push('/order?id='+paymentRes.orderId)		
-	   } else {
-		 toast.error(paymentRes.error, {
-           position: "bottom-right",
-           autoClose: 1000,
-           hideProgressBar: false,
-           closeOnClick: true,
-           pauseOnHover: true,
-           draggable: true,
-           progress: undefined,
-		 });		 
-	   }*/
+	   let txnToken = txnRes.txnToken;
 	   var config = {
 		  "root": "",
 		  "flow": "DEFAULT",
