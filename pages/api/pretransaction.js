@@ -78,8 +78,8 @@ const handler = async(req,res) =>{
 	    },
 	};
 	console.log('paytmParams',paytmParams.body);
-	console.log('mkey',process.env.NEXT_PUBLIC_PAYTM_MKEY)
-	const checksum = await PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body), process.env.NEXT_PUBLIC_PAYTM_MKEY)
+	console.log('mkey');
+	const checksum = await PaytmChecksum.generateSignature(JSON.stringify(paytmParams.body), 'bC#mrwr%iShdtOur')
 	console.log('checksum',checksum);
 	
     paytmParams.head = {
