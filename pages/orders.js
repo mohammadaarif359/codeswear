@@ -6,24 +6,45 @@ import Link from 'next/link'
 const Orders = () => {
   const router = useRouter();
   const [orders, setOrders] = useState([])
+  const [totalResults,setTotalResults] = useState(0)
+  const [page,setPage] = useState(1);
+  const [pageSize,setPageSize] = useState(5);
   //const [orders,setOrders] = useState([])
   // check not login
-  useEffect(() => {  
-	const fetchOrders = async() =>{
-	  const res = await fetch("/api/myorders",{
+  useEffect(() => { 
+	if(!localStorage.getItem('myuser')) {
+	  router.push('/login')
+    } else {
+		fetchOrders(page);
+	}
+  }, [router,page])
+  
+  const fetchOrders = async(page) =>{
+	 console.log('page',page) 
+	 const res = await fetch(`/api/myorders?page=${page}&pageSize=${pageSize}`,{
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({token:JSON.parse(localStorage.getItem('myuser')).token})
      });  
      const orderData = await res.json();
 	 setOrders(orderData.data);
-	}
-	if(!localStorage.getItem('myuser')) {
-	  router.push('/login')
-    } else {
-		fetchOrders();
-	}
-  }, [router,])
+	 setTotalResults(orderData.totalResults);
+  }
+  
+  const handlePrevClick = async() => {
+	console.log('pre click page',page);
+	let currentPage = page;
+	currentPage = currentPage - 1;
+	setPage(currentPage);
+	fetchOrders(currentPage)
+  }
+  const handleNextClick = async() => {
+	console.log('next click page',page);
+	let currentPage = page;
+	currentPage = currentPage + 1;
+	setPage(currentPage);
+	fetchOrders(currentPage)
+  }
   return (
     <div className="container mx-auto">
 	  <h1 className="font-bold text-xl p-6">My Orders</h1> 
@@ -65,6 +86,10 @@ const Orders = () => {
 					})}
 				  </tbody>
 				</table>
+				<div className="container d-flex justify-content-center text-right mt-2">
+                    <button disabled={page<=1} type="button" className="ml-4 text-white bg-pink-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-pink-600 rounded disabled:bg-pink-300" onClick={handlePrevClick}>Previous</button>
+                    <button disabled={page+1 > Math.ceil(totalResults/pageSize)} type="button" className="ml-4 text-white bg-pink-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-pink-600 rounded disabled:bg-pink-300" onClick={handleNextClick}>Next</button>
+                </div>
 			  </div>
 			</div>
 		  </div>
