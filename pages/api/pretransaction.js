@@ -4,9 +4,25 @@ import Order from '../../models/Order'
 import Product from '../../models/Product'
 import connectDb from '../../middleware/mongoose'
 import pincodes from '../../pincode.json'
+import initMiddleware from '../../middleware/init-middleware'
+import validateMiddleware from '../../middleware/validate-middleware'
+import { check, validationResult } from 'express-validator'
+
+const validateBody = initMiddleware(
+    validateMiddleware([
+        check('name','Name is required').notEmpty(),
+		check('email','Email must be valid').isEmail(),
+		check('phone','Phone should be 10 digit').isInt({min:1}).isLength({ min: 10, max: 10}),
+		check('pincode','Pincode should be 6 digit').isInt().isLength({ min: 6, max: 6}),
+		check('address','Address is required').notEmpty(),
+    ], validationResult)
+)
 
 //export default async function handler(req, res) {
 const handler = async(req,res) =>{
+	
+	// check validation
+	await validateBody(req, res)
 	
 	// check if pincode is not serviceable
 	if(!Object.keys(pincodes).includes(req.body.pincode)) {

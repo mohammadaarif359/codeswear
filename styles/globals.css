@@ -4,3 +4,6 @@
 body{
     overflow-x:hidden;
 }
+.help-block {
+	color:red;
+}

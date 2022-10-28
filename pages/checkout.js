@@ -93,6 +93,7 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
 	  body: JSON.stringify(data)
 	});  
 	const txnRes = await res.json();
+	document.querySelectorAll('.help-block').forEach(er => er.innerHTML = '');
 	if(txnRes.success) {
 	   let txnToken = txnRes.txnToken;
 	   var config = {
@@ -121,6 +122,11 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
 			  console.log("error => ",error);
 			});
 		}	
+	} else if(txnRes.errors) {
+		let errors = txnRes.errors;
+		{errors.forEach(val => {
+			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;
+		});}
 	} else {
 		 toast.error(txnRes.error, {
          position: "bottom-right",
@@ -159,12 +165,14 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
           <div className="relative mb-4">
             <label htmlFor="name" className="leading-7 text-sm text-gray-600">Name</label>
             <input type="text" onChange={handleChange} value={name} id="name" name="name" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+			<span className="help-block error_name"></span>
           </div>
         </div>
         <div className='px-2 w-1/2'>
           <div className="relative mb-4">
             <label htmlFor="name" className="leading-7 text-sm text-gray-600">Email</label>
             <input type="email" onChange={handleChange} value={email} id="email" name="email" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+			<span className="help-block error_email"></span>
           </div>
         </div>
       </div>
@@ -172,6 +180,7 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
         <div className="relative mb-4">
           <label htmlFor="address" className="leading-7 text-sm text-gray-600">Address</label>
           <textarea id="address" onChange={handleChange} value={address} name="address" rows="2" cols="30" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></textarea>
+		  <span className="help-block error_address"></span>
         </div>
       </div>
       <div className='mx-auto flex'>
@@ -179,12 +188,14 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
           <div className="relative mb-4">
             <label htmlFor="phone" className="leading-7 text-sm text-gray-600">Phone</label>
             <input type="phone" onChange={handleChange} value={phone} id="phone" name="phone" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+			<span className="help-block error_phone"></span>
           </div>
         </div>
         <div className='px-2 w-1/2'>
           <div className="relative mb-4">
             <label htmlFor="pincode" className="leading-7 text-sm text-gray-600">Pincode</label>
             <input type="text" onChange={handleChange} value={pincode} id="pincode" name="pincode" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+			<span className="help-block error_pincode"></span>
           </div>
         </div>
       </div>
