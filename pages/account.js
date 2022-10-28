@@ -68,6 +68,7 @@ const Account = ({user}) => {
 	  body: JSON.stringify(updatedData)
 	});  
 	response = await response.json();
+	document.querySelectorAll('.help-block').forEach(er => er.innerHTML = '');
 	if(response.success) {
 	  toast.success(response.success, {
         position: "bottom-right",
@@ -79,6 +80,11 @@ const Account = ({user}) => {
         progress: undefined,
       });
       router.push('/account')		
+	} else if(response.errors)  {
+		let errors = response.errors;
+		{errors.forEach(val => {
+			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;
+		});}
 	} else {
 	  toast.error(response.error, {
 	   position: "bottom-right",
@@ -101,6 +107,7 @@ const Account = ({user}) => {
 	  body: JSON.stringify(passwordData)
 	});  
 	resPass = await resPass.json();
+	document.querySelectorAll('.help-block').forEach(er => er.innerHTML = '');
 	if(resPass.success) {
 	  toast.success(resPass.success, {
         position: "bottom-right",
@@ -111,7 +118,15 @@ const Account = ({user}) => {
         draggable: true,
         progress: undefined,
       });
+	  setPassword('')
+	  setCpassword('')
+	  setNpassword('')
       router.push('/account')		
+	} else if(resPass.errors)  {
+		let errors = resPass.errors;
+		{errors.forEach(val => {
+			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;
+		});}
 	} else {
 	  toast.error(resPass.error, {
 	   position: "bottom-right",
@@ -123,9 +138,6 @@ const Account = ({user}) => {
 	   progress: undefined,
 	  });		 
 	}
-	setPassword('')
-	setCpassword('')
-	setNpassword('')
   }
   
   return (
@@ -147,6 +159,7 @@ const Account = ({user}) => {
           <div className="relative mb-4">
             <label htmlFor="name" className="leading-7 text-sm text-gray-600">Name</label>
             <input type="text" onChange={handleChange} value={name} id="name" name="name" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+			<span className='help-block error_name'></span>
           </div>
         </div>
         <div className='px-2 w-1/2'>
@@ -156,6 +169,7 @@ const Account = ({user}) => {
 			<input type="email" onChange={handleChange} value={user.email} id="email" name="email" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" readOnly/>
 			: <input type="email" onChange={handleChange} value={email} id="email" name="email" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
 			}
+			<span className='help-block error_email'></span>
           </div>
         </div>
       </div>
@@ -163,6 +177,7 @@ const Account = ({user}) => {
         <div className="relative mb-4">
           <label htmlFor="address" className="leading-7 text-sm text-gray-600">Address</label>
           <textarea id="address" onChange={handleChange} value={address} name="address" rows="2" cols="30" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></textarea>
+		  <span className='help-block error_address'></span>
         </div>
       </div>
       <div className='mx-auto flex'>
@@ -170,12 +185,14 @@ const Account = ({user}) => {
           <div className="relative mb-4">
             <label htmlFor="phone" className="leading-7 text-sm text-gray-600">Phone</label>
             <input type="phone" onChange={handleChange} value={phone} id="phone" name="phone" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+			<span className='help-block error_phone'></span>
           </div>
         </div>
         <div className='px-2 w-1/2'>
           <div className="relative mb-4">
             <label htmlFor="pincode" className="leading-7 text-sm text-gray-600">Pincode</label>
             <input type="text" onChange={handleChange} value={pincode} id="pincode" name="pincode" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+			<span className='help-block error_pincode'></span>
           </div>
         </div>
       </div>
@@ -186,18 +203,21 @@ const Account = ({user}) => {
           <div className="relative mb-4">
             <label htmlFor="password" className="leading-7 text-sm text-gray-600">Old Password</label>
             <input type="password" onChange={handleChange} value={password} id="password" name="password" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+			<span className='help-block error_password'></span>
           </div>
         </div>
 		<div className='px-2 w-1/2'>
           <div className="relative mb-4">
             <label htmlFor="npassword" className="leading-7 text-sm text-gray-600">New Password</label>
             <input type="password" onChange={handleChange} value={npassword} id="npassword" name="npassword" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+			<span className='help-block error_npassword'></span>
           </div>
         </div>
 		<div className='px-2 w-1/2'>
           <div className="relative mb-4">
             <label htmlFor="cpassword" className="leading-7 text-sm text-gray-600">Confirm Password</label>
             <input type="password" onChange={handleChange} value={cpassword} id="cpassword" name="cpassword" className="w-full bg-white rounded border border-gray-300 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"/>
+			<span className='help-block error_cpassword'></span>
           </div>
         </div>
 	  </div>

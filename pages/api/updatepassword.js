@@ -3,9 +3,22 @@ import User from '../../models/User'
 var CryptoJS = require("crypto-js");
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = 'Harryisgoodb$oy';
+import initMiddleware from '../../middleware/init-middleware'
+import validateMiddleware from '../../middleware/validate-middleware'
+import { check, validationResult } from 'express-validator'
+
+const validateBody = initMiddleware(
+    validateMiddleware([
+        check('password','Password is required').notEmpty(),
+		check('npassword','New passowrd min 6 char').isLength({ min: 6}),
+		check('cpassword','Confirm passowrd min 6 char').isLength({ min: 6}),
+    ], validationResult)
+)
 
 const handler = async(req,res) =>{
     if(req.method == 'POST') {
+		// check validation
+		await validateBody(req, res)
 		let jwtData = jwt.verify(req.body.token, JWT_SECRET);
 		let dbUser = await User.findById(jwtData.user.id);
 		if(dbUser) {
