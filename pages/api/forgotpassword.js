@@ -7,7 +7,7 @@ import { check, validationResult } from 'express-validator'
 
 const validateBody = initMiddleware(
     validateMiddleware([
-        check('email').isEmail(),
+        check('email','Email must be valid').isEmail(),
     ], validationResult)
 )
 
@@ -38,7 +38,7 @@ const handler = async(req,res) =>{
 			  subject: 'Reset Password', // Subject line
 			  //text: "Hello world?", // plain text body
 			  //html: '<b>Test</b>', // html body
-			  html: `<p>Plese click the below link to reset your password</p><center><a href="http://localhost:3000/reset?forgot_token=${forgot_token}"><button type="button">Reset Password</button></a></center>`, // html body
+			  html: `<p>Plese click the below link to reset your password</p><center><a href="https://codewears.herokuapp.com/reset?forgot_token=${forgot_token}"><button type="button">Reset Password</button></a></center>`, // html body
 			});
 			if (info.messageId) {
 			  res.status(200).json({success:"Password reset link send"});

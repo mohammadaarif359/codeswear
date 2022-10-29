@@ -4,6 +4,8 @@ import '../styles/globals.css'
 import Footer from './component/footer'
 import Navbar from './component/navbar'
 import LoadingBar from 'react-top-loading-bar'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -116,6 +118,36 @@ function MyApp({ Component, pageProps }) {
 	  router.push('/login')
   }
   
+  const toastShow = (type,message) => {
+	console.log(type,message)
+    if(type == 'success') {
+		toast.success(message, {
+          position: "bottom-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+      });
+    } else if(type == 'errros') {
+		let errors = message;
+		{errors.forEach(val => {
+			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;
+		});}
+	} else {
+        toast.error(message, {
+            position: "bottom-right",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
+  }
+  
   return <>
     <LoadingBar
         color='#ff2d55'
@@ -124,7 +156,8 @@ function MyApp({ Component, pageProps }) {
         onLoaderFinished={() => setProgress(0)}
       />
     {!adminRoute && <Navbar key={key} logout={logout} user={user} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal}/>}
-	<Component logout={logout} user={user} cart={cart} buyNow={buyNow} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} {...pageProps} />
+	<ToastContainer/>
+	<Component logout={logout} user={user} cart={cart} buyNow={buyNow} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} toastShow={toastShow} {...pageProps} />
 	{!adminRoute && <Footer/>}
   </>
 }

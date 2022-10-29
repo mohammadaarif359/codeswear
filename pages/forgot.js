@@ -2,10 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import { useEffect,useState } from 'react'
 import { Router, useRouter } from 'next/router'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-const Forgot = () => {
+const Forgot = ({toastShow}) => {
   const router = useRouter();
   
   const [email, setEmail] = useState('')
@@ -32,52 +30,20 @@ const Forgot = () => {
       body: JSON.stringify(data)
     });  
     const response = await res.json();
-	document.querySelectorAll('#forgotFrm .help-block').forEach(er => er.innerHTML = '');
+	document.querySelectorAll('.help-block').forEach(er => er.innerHTML = '');
     if(response.success) {
 	  setEmail('')
-      toast.success(response.success, {
-        position: "bottom-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      setTimeout(() => {
-        //router.push('/checkout')  
-      }, 1000);
+	  toastShow('success',response.success);
 	} else if(response.errors)  {
-		let errors = response.errors;
-		{errors.forEach(val => {
-			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;
-		});}
+	  toastShow('errros',response.errors);	
 	} else {
-      toast.error(response.error, {
-        position: "bottom-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+	  toastShow('error',response.error);
     }
   }  
   
   return (
     <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-	  <ToastContainer 
-        position='bottom-right'
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover/> 
-      <div className="max-w-md w-full space-y-8">
+	  <div className="max-w-md w-full space-y-8">
         <div>
           <img className="mx-auto h-12 w-auto" src="/logo.webp" alt="Workflow"/>
             <p className="mt-2 text-center text-sm text-gray-600">
