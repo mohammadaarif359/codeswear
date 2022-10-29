@@ -3,10 +3,22 @@ import connectDb from '../../middleware/mongoose'
 var CryptoJS = require("crypto-js");
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = 'Harryisgoodb$oy';
+import initMiddleware from '../../middleware/init-middleware'
+import validateMiddleware from '../../middleware/validate-middleware'
+import { check, validationResult } from 'express-validator'
+
+const validateBody = initMiddleware(
+    validateMiddleware([
+        check('password','Password should be min 6 char').isLength({ min: 6 }),
+		check('email','Email must be valid').isEmail(),
+    ], validationResult)
+)
 
 const handler = async(req,res) =>{
     if(req.method == 'POST') {
         console.log('in api',req.body)
+		// check validation
+		await validateBody(req, res)
         let user = await User.findOne({email:req.body.email})
         if(user) {
 			const bytes  = CryptoJS.AES.decrypt(user.password, 'secret123');

@@ -32,6 +32,7 @@ const Forgot = () => {
       body: JSON.stringify(data)
     });  
     const response = await res.json();
+	document.querySelectorAll('#forgotFrm .help-block').forEach(er => er.innerHTML = '');
     if(response.success) {
 	  setEmail('')
       toast.success(response.success, {
@@ -46,8 +47,12 @@ const Forgot = () => {
       setTimeout(() => {
         //router.push('/checkout')  
       }, 1000);
-      
-    } else {
+	} else if(response.errors)  {
+		let errors = response.errors;
+		{errors.forEach(val => {
+			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;
+		});}
+	} else {
       toast.error(response.error, {
         position: "bottom-right",
         autoClose: 1000,
@@ -80,12 +85,13 @@ const Forgot = () => {
               <Link href={'/login'}><a href="#" className="font-medium text-pink-600 hover:text-pink-500"> Login </a></Link>
             </p>
         </div>
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6" method="POST">
+        <form name="forgotFrm" onSubmit={handleSubmit} className="mt-8 space-y-6" method="POST">
           <input type="hidden" name="remember" value="true"/>
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
                 <label htmlFor="email-address" className="sr-only">Email address</label>
-                <input value={email} onChange={handleChange} id="email" name="email" type="email" autoComplete="email" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm" placeholder="Email address"/>
+                <input value={email} onChange={handleChange} id="email" name="email" type="text" autoComplete="email" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm" placeholder="Email address"/>
+				<span className="help-block error_email"></span>
               </div>
             </div>
 

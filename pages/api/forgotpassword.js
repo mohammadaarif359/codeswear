@@ -1,9 +1,21 @@
 import connectDb from '../../middleware/mongoose'
 import User from '../../models/User'
 var nodemailer = require("nodemailer");
+import initMiddleware from '../../middleware/init-middleware'
+import validateMiddleware from '../../middleware/validate-middleware'
+import { check, validationResult } from 'express-validator'
+
+const validateBody = initMiddleware(
+    validateMiddleware([
+        check('email').isEmail(),
+    ], validationResult)
+)
 
 const handler = async(req,res) =>{
     if(req.method == 'POST') {
+		// check validation
+		await validateBody(req, res)
+		
 		let user = await User.findOne({email:req.body.email})
 		if(user) {
 			let forgot_token =  (Math.random() + 1).toString(36).substring(2);

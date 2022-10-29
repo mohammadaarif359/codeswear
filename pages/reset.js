@@ -40,6 +40,7 @@ const Forgot = () => {
       body: JSON.stringify(data)
     });  
     const response = await res.json();
+	document.querySelectorAll('.help-block').forEach(er => er.innerHTML = '');
     if(response.success) {
 	  setPassword('')
 	  setCpassword('')
@@ -56,7 +57,12 @@ const Forgot = () => {
         router.push('/login')  
       }, 1000);
       
-    } else {
+    } else if(response.errors)  {
+		let errors = response.errors;
+		{errors.forEach(val => {
+			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;
+		});}
+	} else {
       toast.error(response.error, {
         position: "bottom-right",
         autoClose: 1000,
@@ -92,13 +98,20 @@ const Forgot = () => {
         <form onSubmit={handleSubmit} className="mt-8 space-y-6" method="POST">
           <input type="hidden" name="forgotToken" value={forgotToken}/>
             <div className="rounded-md shadow-sm -space-y-px">
-              <div>
-                <label htmlFor="password" className="sr-only">Password</label>
-                <input value={password} onChange={handleChange} id="password" name="password" type="password" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm" placeholder="Password"/>
-              </div>
-			  <div>
+              <div className='w-full'>
+                <div className="relative mb-4">
+                  <label htmlFor="password" className="sr-only">Password</label>
+                  <input value={password} onChange={handleChange} id="password" name="password" type="password" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm" placeholder="Password"/>
+				  <span className='help-block error_password'></span>
+                </div>
+			  </div>
+			  <div className='w-full'>
+                <div className="relative mb-4">
                   <label htmlFor="cpassword" className="sr-only">Password</label>
                   <input value={cpassword} onChange={handleChange} id="cpassword" name="cpassword" type="password" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm" placeholder="Confirm Password"/>
+				  <span className='help-block error_cpassword'></span>
+				  <span className='help-block error_forgotToken'></span>
+				</div>  
               </div>
             </div>
 

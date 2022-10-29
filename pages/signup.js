@@ -41,21 +41,39 @@ const Singup = () => {
       body: JSON.stringify(data)
     });  
     const response = await res.json();
-    setName('')
-    setEmail('')
-    setPassword('')
-    toast.success('🦄 User account created successfully!', {
-      position: "bottom-right",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-    setTimeout(() => {
-      router.push('/login')  
-    }, 1000);
+	document.querySelectorAll('.help-block').forEach(er => er.innerHTML = '');
+	if(response.success) {
+	    setName('')
+		setEmail('')
+		setPassword('')
+		toast.success('🦄 User account created successfully!', {
+		  position: "bottom-right",
+		  autoClose: 1000,
+		  hideProgressBar: false,
+		  closeOnClick: true,
+		  pauseOnHover: true,
+		  draggable: true,
+		  progress: undefined,
+		});
+		setTimeout(() => {
+		  router.push('/login')  
+		}, 1000);
+	} else if(response.errors)  {
+		let errors = response.errors;
+		{errors.forEach(val => {
+			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;
+		});}
+	} else {
+      toast.error(response.error, {
+        position: "bottom-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   }
   return (
     <div>
@@ -82,18 +100,27 @@ const Singup = () => {
           <form onSubmit={handleSubmit} className="mt-8 space-y-6" method="POST">
             <input type="hidden" name="remember" value="true"/>
               <div className="rounded-md shadow-sm -space-y-px">
-                <div>
-                  <label htmlFor="name" className="sr-only">Name</label>
-                  <input value={name} onChange={handleChange} id="name" name="name" type="text" autoComplete="name" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm" placeholder="Your Name"/>
-                </div>
-                <div>
-                  <label htmlFor="email-address" className="sr-only">Email address</label>
-                  <input value={email} onChange={handleChange} id="email" name="email" type="email" autoComplete="email" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm" placeholder="Email address"/>
-                </div>
-                <div>
-                  <label htmlFor="password" className="sr-only">Password</label>
-                  <input value={password} onChange={handleChange} id="password" name="password" type="password" autoComplete="current-password" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm" placeholder="Password"/>
-                </div>
+			    <div className='w-full'>
+				  <div className="relative mb-4">
+                    <label htmlFor="name" className="sr-only">Name</label>
+                    <input value={name} onChange={handleChange} id="name" name="name" type="text" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm" placeholder="Your Name"/>
+				    <span className="help-block error_name"></span>
+                  </div>
+				</div>
+				<div className='w-full'>
+                  <div className="relative mb-4">
+                    <label htmlFor="email-address" className="sr-only">Email address</label>
+                    <input value={email} onChange={handleChange} id="email" name="email" type="email" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm" placeholder="Email address"/>
+				    <span className="help-block error_email"></span>
+                  </div>
+				</div>
+				<div className='w-full'>
+				  <div className="relative mb-4">
+                    <label htmlFor="password" className="sr-only">Password</label>
+                    <input value={password} onChange={handleChange} id="password" name="password" type="password" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-pink-500 focus:border-pink-500 focus:z-10 sm:text-sm" placeholder="Password"/>
+				    <span className="help-block error_password"></span>
+                  </div>
+				</div>  
               </div>
 
               <div>
