@@ -2,10 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import { useState,useEffect } from 'react'
 import { Router, useRouter } from 'next/router'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-const Singup = () => {
+const Singup = ({toastShow}) => {
   const router = useRouter();
 
   const [name, setName] = useState('')
@@ -43,50 +41,21 @@ const Singup = () => {
     const response = await res.json();
 	document.querySelectorAll('.help-block').forEach(er => er.innerHTML = '');
 	if(response.success) {
-	    setName('')
-		setEmail('')
-		setPassword('')
-		toast.success('🦄 User account created successfully!', {
-		  position: "bottom-right",
-		  autoClose: 1000,
-		  hideProgressBar: false,
-		  closeOnClick: true,
-		  pauseOnHover: true,
-		  draggable: true,
-		  progress: undefined,
-		});
-		setTimeout(() => {
-		  router.push('/login')  
-		}, 1000);
+	  setName('')
+	  setEmail('')
+      setPassword('')
+	  toastShow('success',response.success);
+	  setTimeout(() => {
+        router.push('/login')  
+      }, 1000);
 	} else if(response.errors)  {
-		let errors = response.errors;
-		{errors.forEach(val => {
-			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;
-		});}
+	  toastShow('errros',response.errors);	
 	} else {
-      toast.error(response.error, {
-        position: "bottom-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+	  toastShow('error',response.error);
     }
   }
   return (
     <div>
-      <ToastContainer 
-          position='bottom-right'
-          autoClose={1000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover/>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>

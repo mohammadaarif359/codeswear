@@ -2,11 +2,9 @@ import React from 'react'
 import Link from 'next/link'
 import { useState,useEffect } from 'react';
 import { Router, useRouter } from 'next/router'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 
-const Login = () => {
+const Login = ({toastShow}) => {
   const router = useRouter();
 
   const [email, setEmail] = useState('')
@@ -39,52 +37,22 @@ const Login = () => {
     });  
     const response = await res.json();
 	document.querySelectorAll('.help-block').forEach(er => er.innerHTML = '');
-    if(response.success) {
+	if(response.success) {
 	  localStorage.setItem('myuser',JSON.stringify({token:response.token,email:response.user.email,_id:response.user._id}))
 	  setEmail('')
       setPassword('')
-      toast.success('🦄 User login successfully!', {
-        position: "bottom-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      setTimeout(() => {  
+	  toastShow('success',response.success);
+	  setTimeout(() => {
         router.push(response.redirectTo)  
       }, 1000);
-      
-    } else if(response.errors)  {
-		let errors = response.errors;
-		{errors.forEach(val => {
-			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;
-		});}
+	} else if(response.errors)  {
+	  toastShow('errros',response.errors);	
 	} else {
-      toast.error(response.error, {
-        position: "bottom-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+	  toastShow('error',response.error);
     }
   }
   return (
     <div>
-      <ToastContainer 
-        position='bottom-right'
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover/>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
