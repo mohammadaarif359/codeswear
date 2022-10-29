@@ -47,7 +47,7 @@ const Forgot = ({toastShow}) => {
         router.push('/login')  
       }, 1000);
 	} else if(response.errors)  {
-	  toastShow('errros',response.errors);	
+	  toastShow('errors',response.errors);	
 	} else {
 	  toastShow('error',response.error);
     }

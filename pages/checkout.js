@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
+const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal,toastShow}) => {
   const router = useRouter()
 
   const [name, setName] = useState('')
@@ -123,20 +123,9 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal}) => {
 			});
 		}	
 	} else if(txnRes.errors) {
-		let errors = txnRes.errors;
-		{errors.forEach(val => {
-			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;
-		});}
+		toastShow('errors',txnRes.errors);
 	} else {
-		 toast.error(txnRes.error, {
-         position: "bottom-right",
-         autoClose: 1000,
-         hideProgressBar: false,
-         closeOnClick: true,
-         pauseOnHover: true,
-         draggable: true,
-         progress: undefined,
-		});
+		toastShow('error',txnRes.error);
 		// clear cart if txn token generate err
 		if(txnRes.cartClear) {
 			clearCart();

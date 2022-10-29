@@ -35,7 +35,7 @@ const Forgot = ({toastShow}) => {
 	  setEmail('')
 	  toastShow('success',response.success);
 	} else if(response.errors)  {
-	  toastShow('errros',response.errors);	
+	  toastShow('errors',response.errors);	
 	} else {
 	  toastShow('error',response.error);
     }

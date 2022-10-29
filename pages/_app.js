@@ -130,7 +130,7 @@ function MyApp({ Component, pageProps }) {
           draggable: true,
           progress: undefined,
       });
-    } else if(type == 'errros') {
+    } else if(type == 'errors') {
 		let errors = message;
 		{errors.forEach(val => {
 			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;

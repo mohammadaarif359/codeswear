@@ -4,7 +4,7 @@ import {useRouter} from 'next/router'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Account = ({user}) => {
+const Account = ({user,toastShow}) => {
   const router = useRouter();
   
   const [name, setName] = useState('')
@@ -70,31 +70,12 @@ const Account = ({user}) => {
 	response = await response.json();
 	document.querySelectorAll('.help-block').forEach(er => er.innerHTML = '');
 	if(response.success) {
-	  toast.success(response.success, {
-        position: "bottom-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+	  toastShow('success',response.success);
       router.push('/account')		
 	} else if(response.errors)  {
-		let errors = response.errors;
-		{errors.forEach(val => {
-			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;
-		});}
+	  toastShow('errors',response.errors);
 	} else {
-	  toast.error(response.error, {
-	   position: "bottom-right",
-	   autoClose: 1000,
-	   hideProgressBar: false,
-	   closeOnClick: true,
-	   pauseOnHover: true,
-	   draggable: true,
-	   progress: undefined,
-	  });		 
+	  toastShow('erorr',response.error);		 
 	}
   }
   
@@ -109,34 +90,15 @@ const Account = ({user}) => {
 	resPass = await resPass.json();
 	document.querySelectorAll('.help-block').forEach(er => er.innerHTML = '');
 	if(resPass.success) {
-	  toast.success(resPass.success, {
-        position: "bottom-right",
-        autoClose: 1000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
 	  setPassword('')
 	  setCpassword('')
 	  setNpassword('')
+	  toastShow('success',resPass.success);
       router.push('/account')		
 	} else if(resPass.errors)  {
-		let errors = resPass.errors;
-		{errors.forEach(val => {
-			document.querySelector('.error_'+val?.param).innerHTML = val?.msg;
-		});}
+	  toastShow('errros',resPass.errors);
 	} else {
-	  toast.error(resPass.error, {
-	   position: "bottom-right",
-	   autoClose: 1000,
-	   hideProgressBar: false,
-	   closeOnClick: true,
-	   pauseOnHover: true,
-	   draggable: true,
-	   progress: undefined,
-	  });		 
+	  toastShow('erorr',resPass.error);		 
 	}
   }
   

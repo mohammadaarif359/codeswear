@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import BaseCard from "../../src/components/baseCard/BaseCard";
 
-const EditProduct = () => {
+const EditProduct = ({toastShow}) => {
   const router = useRouter();
   console.log('id',router.query.id)
   const [productId,setProductId] = useState('')
@@ -68,21 +68,20 @@ const EditProduct = () => {
 		body: JSON.stringify(form)
     });  
     res = await res.json();
+	setError({})
 	if(res.success) {
-		router.push('/admin/allproducts')
-		alert(res.success);
-	} else if(res.errors) {
-		let errors = res.errors;
-		console.log('errors',errors)
+	  toastShow('success',res.success);
+	  router.push('/admin/allproducts')
+	} else if(res.errors)  {
+	  let errors = res.errors;
 		{errors.forEach(val => {
 			setError((error)=>{
 				return {...error,[val.param]:val.msg}
 			})
 		});}	
-		console.log('form error',error)
 	} else {
-		alert(res.error);
-	}
+	  toastShow('error',res.error);
+    }
   }
   return (
     <ThemeProvider theme={theme}>
