@@ -80,7 +80,7 @@ const Checkout = ({user,cart,addToCart,removeFromCart,clearCart,subTotal,toastSh
 	if(localStorage.getItem('myuser')) {
 	  fetchUserData();
 	}
-  }, [name,email,phone,address,pincode]); 
+  }, []); 
 	
   
   const checkoutPayment = async(e)=>{

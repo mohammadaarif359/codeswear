@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../src/theme/theme";
 import FullLayout from "../../src/layouts/FullLayout";
