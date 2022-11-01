@@ -38,7 +38,7 @@ const Login = ({toastShow}) => {
     const response = await res.json();
 	document.querySelectorAll('.help-block').forEach(er => er.innerHTML = '');
 	if(response.success) {
-	  localStorage.setItem('myuser',JSON.stringify({token:response.token,email:response.user.email,_id:response.user._id}))
+	  localStorage.setItem('myuser',JSON.stringify({token:response.token,email:response.user.email,_id:response.user._id,role:response.user.role}))
 	  setEmail('')
       setPassword('')
 	  toastShow('success',response.success);

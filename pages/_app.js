@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }) {
   const [cart, setCart] = useState({})
   const [subTotal, setSubTotal] = useState(0)
   // for user token
-  const [user, setUser] = useState({token:null,email:null,_id:null})
+  const [user, setUser] = useState({token:null,email:null,_id:null,role:null})
   const [key, setKey] = useState(0)
   // for progress bar
   const [progress, setProgress] = useState(0)
@@ -42,7 +42,7 @@ function MyApp({ Component, pageProps }) {
     //const token = localStorage.getItem('token')
 	const myuser = JSON.parse(localStorage.getItem('myuser'))
     if(myuser) {
-      setUser({token:myuser.token,email:myuser.email,_id:myuser._id})
+      setUser({token:myuser.token,email:myuser.email,_id:myuser._id,role:myuser.role})
       setKey(Math.random())
     }
 	// set setAdminRoute

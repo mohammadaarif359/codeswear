@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 const mongoose = require('mongoose');
 import Order from '../models/Order';
 
-const OrderDetail = ({order,clearCart}) => {
+const OrderDetail = ({order,user,clearCart,toastShow}) => {
   const router = useRouter()
   const products = order.products;
   
@@ -11,7 +11,22 @@ const OrderDetail = ({order,clearCart}) => {
 	  if(router.query.cartClear && router.query.cartClear == 1) {
 		  clearCart();
 	  }
-  }, [router]);  
+  }, [router]);
+	
+  const deliverHandler = async(id) =>{
+	const res = await fetch("/api/orderdeliver",{
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({id:id})
+    });  
+    const response = await res.json();
+	if(response.success) {
+		toastShow('success',response.success)
+		router.push('/order?id='+id)
+	} else {
+		toastShow('error',response.error)
+	}
+  }  
   return (
     <section className="text-gray-600 body-font overflow-hidden">
       <div className="container px-5 py-24 mx-auto">
@@ -39,6 +54,14 @@ const OrderDetail = ({order,clearCart}) => {
                 <button className="flex mx-0 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">Track Order</button>
               </div>
             </div>
+			<div className="flex flex-col">
+              <span className="title-font font-medium text-2xl text-gray-900">Delivery Status : {order.deliveryStatus}</span>
+			  {user && user.role && user.role == 'admin' && order.deliveryStatus != 'delivered' &&
+			  <div className='my-4'>
+                <button onClick={()=>{deliverHandler(order._id)}}className="flex mx-0 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">Mark As Delivered</button>
+              </div>}
+			  
+            </div>
           </div>
           <img alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400"/>
         </div>
@@ -52,6 +75,11 @@ export async function getServerSideProps(context) {
     const con = await mongoose.connect(process.env.MONGO_URI)
   }
   let order = await Order.findById(context.query.id);
+  if(order == null) {
+	return {
+      notFound: true
+    }
+  }
   return {
     props: {order:JSON.parse(JSON.stringify(order))}, // will be passed to the page component as props
   }
