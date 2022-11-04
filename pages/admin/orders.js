@@ -8,11 +8,11 @@ import OrdersTable from "../../src/components/dashboard/OrdersTable";
 const mongoose = require('mongoose');
 import Order from '../../models/Order'
 
-const Orders = ({orders,pages,logout}) => {
+const Orders = ({orders,pages,page,logout}) => {
   const router = useRouter();
-  const [page,setPage] = useState(router.query.page ? router.query.page : 1)
+  //const [page,setPage] = useState(router.query.page ? router.query.page : 1)
   const handleChange = (event,value) =>{
-	  setPage(value);
+	  //setPage(value);
 	  router.push('/admin/orders?page='+value)
   }  
   return (
@@ -31,11 +31,12 @@ const Orders = ({orders,pages,logout}) => {
 
 export default Orders
 
-export async function getServerSideProps(context,page) {
+export async function getServerSideProps(context) {
   if(!mongoose.connections[0].readyState) {
     const con = await mongoose.connect(process.env.MONGO_URI)
   }
   //console.log(`MongoDB Connected : ${con.connection.host}`)
+  let page = context.query.page ? context.query.page : 1;
   let pageSize = 5;
   
   let orders = await Order.find({}).skip((page - 1) * pageSize).limit(pageSize);
@@ -43,6 +44,6 @@ export async function getServerSideProps(context,page) {
   let pages = Math.ceil(count/pageSize);
   
   return {
-    props: {orders:JSON.parse(JSON.stringify(orders)),pages:pages}, // will be passed to the page component as props
+    props: {orders:JSON.parse(JSON.stringify(orders)),pages:pages,page:page}, // will be passed to the page component as props
   }
 }
