@@ -1,3 +1,4 @@
+import React,{useState,useEffect} from 'react';
 import { Grid } from "@mui/material";
 import BlogCard from "../../src/components/dashboard/BlogCard";
 import SalesOverview from "../../src/components/dashboard/SalesOverview";
@@ -8,17 +9,31 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../src/theme/theme";
 import FullLayout from "../../src/layouts/FullLayout";
 
-export default function Index({logout}) {
+const Index = ({logout}) => {
+  const [data,setData] = useState({activities:[],saleData:[],deliveryData:[]})	
+  useEffect(() => {
+	 const fetchDashboardData = async() =>{
+	  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/dashboard`,{
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({})
+      });  
+      res = await res.json();
+	  console.log('res',res)
+	  setData({activities:res.activities,saleData:res.saleData,deliveryData:res.deliveryData}) 
+    }
+	fetchDashboardData();
+  }, []);		
   return (
     <ThemeProvider theme={theme}>
 	  <FullLayout logout={logout}>
 		<Grid container spacing={0}>
 		  <Grid item xs={12} lg={12}>
-			<SalesOverview />
+			<SalesOverview saleData={data.saleData} deliveryData={data.deliveryData}/>
 		  </Grid>
 		  {/* ------------------------- row 1 ------------------------- */}
 		  <Grid item xs={12} lg={4}>
-			<DailyActivity />
+			<DailyActivity activities={data.activities}/>
 		  </Grid>
 		  <Grid item xs={12} lg={8}>
 			<ProductPerfomance />
@@ -31,3 +46,4 @@ export default function Index({logout}) {
 	</ThemeProvider>  
   );
 }
+export default Index

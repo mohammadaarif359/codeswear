@@ -4,7 +4,8 @@ import dynamic from "next/dynamic";
 import BaseCard from "../baseCard/BaseCard";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const SalesOverview = () => {
+const SalesOverview = ({saleData,deliveryData}) => {
+  console.log('saleData',saleData)
   const optionssalesoverview = {
     grid: {
       show: true,
@@ -74,8 +75,8 @@ const SalesOverview = () => {
     },
     yaxis: {
       show: true,
-      min: 100,
-      max: 400,
+      min: 1,
+      max: 50,
       tickAmount: 3,
       labels: {
         style: {
@@ -93,7 +94,7 @@ const SalesOverview = () => {
       theme: "dark",
     },
   };
-  const seriessalesoverview = [
+  /*const seriessalesoverview = [
     {
       name: "Ample Admin",
       data: [355, 390, 300, 350, 390, 180, 355, 390, 300, 350, 390, 180],
@@ -101,6 +102,16 @@ const SalesOverview = () => {
     {
       name: "Pixel Admin",
       data: [280, 250, 325, 215, 250, 310, 280, 250, 325, 215, 250, 310],
+    },
+  ];*/
+  const seriessalesoverview = [
+    {
+      name: "Order",
+      data: saleData,
+    },
+    {
+      name: "Deliver",
+      data: deliveryData,
     },
   ];
   return (
