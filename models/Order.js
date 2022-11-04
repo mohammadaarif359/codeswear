@@ -29,6 +29,10 @@ const orderSchema = new mongoose.Schema({
 		type:String,
 		default:''
 	},
+	paidAt:{
+		type:Date,
+		default:null
+	},
 	address:{
 		type:String,
 		required:true
@@ -36,7 +40,11 @@ const orderSchema = new mongoose.Schema({
 	deliveryStatus:{
 		type:String,
 		default:'unshipped'
-	}
+	},
+	deliveredAt:{
+        type:Date,
+		default:null
+    }
 },{
     timestamps:true
 })

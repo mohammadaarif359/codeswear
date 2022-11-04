@@ -24,8 +24,10 @@ const handler = async(req,res) =>{
 	let order = await Order.findOne({orderId:req.body.ORDERID});
 	if(order) {
 		let status;
+		let paidAt = null;
 		if(req.body.STATUS == 'TXN_SUCCESS') {
 			status = 'success';
+			paidAt = req.body.TXNDATE;
 		} else if(req.body.STATUS == 'PENDING') {
 			status = 'pending';
 		} else {
@@ -34,6 +36,7 @@ const handler = async(req,res) =>{
 		order.status = status;
 		order.tansactionId = req.body.TXN_TOKEN ? req.body.TXN_TOKEN : req.body.TXNID;
 		order.paymentInfo = JSON.stringify(req.body);
+		order.paidAt = paidAt;
 		await order.save();
 		// set available qty
 		if(status == 'success') {
