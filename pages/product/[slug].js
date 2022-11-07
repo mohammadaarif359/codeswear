@@ -77,14 +77,14 @@ const Slug = ({buyNow,addToCart,product,variants,wishlist,user,toastShow}) => {
         <title>{product.title}</title>
         <meta name="description" content={product.desc} />
         <link rel="icon" href="/favicon.ico" />
-		meta property="og:title" content="Robotic Process Automation in Insurance" />
+		{/*<meta property="og:title" content="Robotic Process Automation in Insurance" />
 		<meta property="og:description" content={product.desc}/>
-		<meta property="og:url" content={`${process.env.NEXT_PUBLIC_HOST}/prodduct/${product.slug}`}/>
+		<meta property="og:url" content={`${process.env.NEXT_PUBLIC_HOST}/product/${product.slug}`}/>
 		<meta property="og:site" content={process.env.NEXT_PUBLIC_HOST}/>
 		<meta property="og:type" content="website"/>
 		<meta property="og:image" content={product.img}/>
 		<meta property="og:image:width" content="1280" />
-		<meta property="og:image:height" content="630" />
+		<meta property="og:image:height" content="630" />*/}
       </Head>
       <section className="text-gray-600 body-font overflow-hidden">
         <ToastContainer 
