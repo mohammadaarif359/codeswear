@@ -9,7 +9,7 @@ const Header = ({title,description,keywords,url,img,robots='nofollow, noindex'})
 		<meta name="keywords" content={keywords ? keywords : 'wear the code, codes thsirt, code huddies'}/>
 		<meta name="robots" content={robots} />
         <link rel="icon" href="/favicon.ico" />
-		<meta property="og:title" content={title} />
+		<meta property="og:title" content={title ? title : 'Codes Wear'} />
 		<meta property="og:description" content={description ? description : 'wear the code'}/>
 		<meta property="og:url" content={url}/>
 		<meta property="og:site" content={process.env.NEXT_PUBLIC_HOST}/>
