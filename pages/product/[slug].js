@@ -8,6 +8,7 @@ const colorArr = ['red','white','green','yellow'];
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Head from 'next/head'
+import Header from '../component/header'
 
 const Slug = ({buyNow,addToCart,product,variants,wishlist,user,toastShow}) => {
   const router = useRouter()
@@ -73,9 +74,11 @@ const Slug = ({buyNow,addToCart,product,variants,wishlist,user,toastShow}) => {
   }
   return (
     <>
-	  <Head>
+	  <Header title={product.title} description={product.desc} keywords="codes wear, tshirts, mugs, huddies" url={`${process.env.NEXT_PUBLIC_HOST}/product/${product.slug}`} img={product.img}/>
+	{/*<Head>
         <title>{product.title}</title>
         <meta name="description" content={product.desc} />
+		<meta name="keywords" content="codes wear, tshirts, mugs, huddies" />
         <link rel="icon" href="/favicon.ico" />
 		<meta property="og:title" content={product.title} />
 		<meta property="og:description" content={product.desc}/>
@@ -85,7 +88,7 @@ const Slug = ({buyNow,addToCart,product,variants,wishlist,user,toastShow}) => {
 		<meta property="og:image" content={product.img}/>
 		<meta property="og:image:width" content="1280" />
 		<meta property="og:image:height" content="630" />
-      </Head>
+	</Head>*/}
       <section className="text-gray-600 body-font overflow-hidden">
         <ToastContainer 
           position='bottom-right'
