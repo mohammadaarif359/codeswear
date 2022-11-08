@@ -77,7 +77,7 @@ const Slug = ({buyNow,addToCart,product,variants,wishlist,user,toastShow}) => {
         <title>{product.title}</title>
         <meta name="description" content={product.desc} />
         <link rel="icon" href="/favicon.ico" />
-		<meta property="og:title" content="Robotic Process Automation in Insurance" />
+		<meta property="og:title" content={product.title} />
 		<meta property="og:description" content={product.desc}/>
 		<meta property="og:url" content={`${process.env.NEXT_PUBLIC_HOST}/product/${product.slug}`}/>
 		<meta property="og:site" content={process.env.NEXT_PUBLIC_HOST}/>
