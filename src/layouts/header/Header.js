@@ -11,7 +11,7 @@ const Header = ({ logout,sx, customClass, toggleMobileSidebar, position }) => {
   const router = useRouter();	
   // check not login
   useEffect(() => {
-	if(!localStorage.getItem('myuser')) {	
+	if(!localStorage.getItem('myuser') || JSON.parse(localStorage.getItem('myuser')).role != 'admin') {	
 	  router.push('/login')
     }
   }, [router])	
