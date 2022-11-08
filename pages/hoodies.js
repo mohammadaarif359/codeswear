@@ -2,9 +2,12 @@ import React from 'react'
 import Link from 'next/link';
 const mongoose = require('mongoose');
 import Product from '../models/Product';
+import Header from './component/header'
 
 const Hoodies = ({products}) => {
   return (
+	<>
+	<Header title="codeswaer hoodies" description="" keywords="" url={process.env.NEXT_PUBLIC_HOST} img=""/>
     <section className="text-gray-600 body-font">
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-wrap -m-4 justify-center">
@@ -38,6 +41,7 @@ const Hoodies = ({products}) => {
         </div>
       </div>
     </section>
+	</>
   )
 }
 
