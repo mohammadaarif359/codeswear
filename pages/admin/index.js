@@ -19,7 +19,6 @@ const Index = ({logout}) => {
 		body: JSON.stringify({})
       });  
       res = await res.json();
-	  console.log('res',res)
 	  setData({activities:res.activities,saleData:res.saleData,deliveryData:res.deliveryData}) 
     }
 	fetchDashboardData();

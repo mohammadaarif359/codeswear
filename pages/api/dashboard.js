@@ -6,7 +6,6 @@ const handler = async(req,res) =>{
 		let order = await Order.findOne().sort({deliveredAt:-1});
 		let activities = [];
 		if(order) {
-			console.log('order id',order._id)
 			activities = [
 			  {
 				time: new Date(order.deliveredAt).toLocaleString(),
@@ -31,13 +30,13 @@ const handler = async(req,res) =>{
 		let sales = await Order.aggregate([
 			{$match: {
 				"createdAt": { $gte: saleDate},
+				"paidAt": {$ne: null}
 			}},
 			{$group: {
 				_id: {$month: "$createdAt"}, 
 				count: {$sum: 1} 
 			}}
 		]);
-		console.log('orders sales',sales)
 		let deliveries = await Order.aggregate([
 			{$match: {
 				"createdAt": { $gte: saleDate},
@@ -48,15 +47,14 @@ const handler = async(req,res) =>{
 				count: {$sum: 1} 
 			}}
 		]);
-		console.log('orders delivery',deliveries)
 		
 		let saleData = [0,0,0,0,0,0,0,0,0,0,0,0];
 		sales.map((sale)=>{
-			saleData[sale._id] = sale.count;
+			saleData[sale._id-1] = sale.count;
 		})
 		let deliveryData = [0,0,0,0,0,0,0,0,0,0,0,0];
 		deliveries.map((deliver)=>{
-			deliveryData[deliver._id] = deliver.count;
+			deliveryData[deliver._id-1] = deliver.count;
 		})
 		return res.status(200).json({ success: 'dashboard dat get succesfully',activities,saleData,deliveryData,currentYear})
  	/*} else {
