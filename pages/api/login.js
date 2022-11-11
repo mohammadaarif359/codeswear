@@ -16,8 +16,7 @@ const validateBody = initMiddleware(
 
 const handler = async(req,res) =>{
     if(req.method == 'POST') {
-        console.log('in api',req.body)
-		// check validation
+        // check validation
 		await validateBody(req, res)
         let user = await User.findOne({email:req.body.email})
         if(user) {
