@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  async headers() {
+  /*async headers() {
     return [
       {
         source: '/(.*)',
@@ -23,9 +23,13 @@ const nextConfig = {
 			key: 'X-XSS-Protection',
 			value: '1; mode=block',
 		  },
+		  {
+			key: 'Set-Cookie',
+			value: 'path=/; samesite=lax; httponly',
+		  },
         ],
       },
-    ]
+    ]*/
   },
 }
 
