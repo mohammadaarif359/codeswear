@@ -31,7 +31,7 @@ const Orders = ({orders,pages,page,logout}) => {
 
 export default Orders
 
-export async function getServerSideProps(context,page) {
+export async function getServerSideProps(context) {
   if(!mongoose.connections[0].readyState) {
     const con = await mongoose.connect(process.env.MONGO_URI)
   }
