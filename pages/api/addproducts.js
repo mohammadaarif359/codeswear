@@ -2,6 +2,7 @@ import Product from '../../models/Product'
 import connectDb from '../../middleware/mongoose'
 import initMiddleware from '../../middleware/init-middleware'
 import validateMiddleware from '../../middleware/validate-middleware'
+import protectedMiddleware from '../../middleware/protected-middleware'
 import { check, validationResult } from 'express-validator'
 
 const validateBody = initMiddleware(
@@ -25,6 +26,8 @@ const validateBody = initMiddleware(
 
 const handler = async(req,res) =>{
     if(req.method == 'POST') {
+		// check authenticate
+		protectedMiddleware()
 		// check validation
 		await validateBody(req, res)
 		

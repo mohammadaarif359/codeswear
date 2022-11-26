@@ -9,51 +9,42 @@ import {
   TableHead,
   TableRow,
   Chip,
+  Button,
 } from "@mui/material";
 import BaseCard from "../baseCard/BaseCard";
 
-/*const products = [
-  {
-    id: "1",
-    name: "Sunil Joshi",
-    post: "Web Designer",
-    pname: "Elite Admin",
-    priority: "Low",
-    pbg: "primary.main",
-    budget: "3.9",
-  },
-  {
-    id: "2",
-    name: "Andrew McDownland",
-    post: "Project Manager",
-    pname: "Real Homes WP Theme",
-    priority: "Medium",
-    pbg: "secondary.main",
-    budget: "24.5",
-  },
-  {
-    id: "3",
-    name: "Christopher Jamil",
-    post: "Project Manager",
-    pname: "MedicalPro WP Theme",
-    priority: "High",
-    pbg: "error.main",
-    budget: "12.8",
-  },
-  {
-    id: "4",
-    name: "Nirav Joshi",
-    post: "Frontend Engineer",
-    pname: "Hosting Press HTML",
-    priority: "Critical",
-    pbg: "success.main",
-    budget: "2.4",
-  },
-];*/
-
 const ProductsTable = ({products}) => {
+  const exportProduct = async (e) => {
+	e.preventDefault();
+	const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/exportproducts`, {
+	  method: "GET",
+	  headers: {
+		Accept:"application/vnd.ms-excel",
+		"Content-Type":"application/vnd.ms-excel",
+	  },
+	}).then(response =>response.blob())
+	  .then((blob) =>{
+	  const href = window.URL.createObjectURL(blob);	  
+	  const link = document.createElement('a');
+	  link.href = href;
+	  //link.href = "/files/products.xlsx";
+	  link.setAttribute(
+		'download',
+		`products.xlsx`,
+	  );
+	  document.body.appendChild(link);
+	  // Start download
+	  link.click();
+	  // Clean up and remove the link
+	  link.parentNode.removeChild(link);
+	  return response.json();
+	}).catch((err => console.log(err)));
+  };  
   return (
     <BaseCard title="All Products">
+	  <Button onClick={exportProduct} variant="outlined" mt={2}>
+		Export
+	  </Button>
       <Table
         aria-label="simple table"
         sx={{
