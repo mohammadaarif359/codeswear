@@ -42,7 +42,7 @@ const ProductsTable = ({products}) => {
   };  
   return (
     <BaseCard title="All Products">
-	  <Button onClick={exportProduct} variant="outlined" mt={2}>
+	  <Button onClick={exportProduct} variant="outlined" mt={2} mr={0}>
 		Export
 	  </Button>
       <Table

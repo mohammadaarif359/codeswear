@@ -8,12 +8,42 @@ import {
   TableHead,
   TableRow,
   Chip,
+  Button,
 } from "@mui/material";
 import BaseCard from "../baseCard/BaseCard";
 
 const OrdersTable = ({orders}) => {
+  const exportProduct = async (e) => {
+	e.preventDefault();
+	const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/exportorders`, {
+	  method: "GET",
+	  headers: {
+		Accept:"application/vnd.ms-excel",
+		"Content-Type":"application/vnd.ms-excel",
+	  },
+	}).then(response =>response.blob())
+	  .then((blob) =>{
+	  const href = window.URL.createObjectURL(blob);	  
+	  const link = document.createElement('a');
+	  link.href = href;
+	  //link.href = "/files/products.xlsx";
+	  link.setAttribute(
+		'download',
+		`orders.xlsx`,
+	  );
+	  document.body.appendChild(link);
+	  // Start download
+	  link.click();
+	  // Clean up and remove the link
+	  link.parentNode.removeChild(link);
+	  return response.json();
+	}).catch((err => console.log(err)));
+  };	 
   return (
     <BaseCard title="All Orders">
+	  <Button onClick={exportProduct} variant="outlined" mt={2} mr={0}>
+		Export
+	  </Button>
       <Table
         aria-label="simple table"
         sx={{
