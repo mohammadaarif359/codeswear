@@ -15,7 +15,10 @@ const Index = ({logout}) => {
 	 const fetchDashboardData = async() =>{
 	  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/dashboard`,{
 		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
+		headers: { 
+			'Content-Type': 'application/json',
+			'authorization':JSON.parse(localStorage.getItem('myuser')).token
+		},
 		body: JSON.stringify({})
       });  
       res = await res.json();

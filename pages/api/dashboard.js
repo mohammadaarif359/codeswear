@@ -1,7 +1,12 @@
 import Order from '../../models/Order'
 import connectDb from '../../middleware/mongoose'
+import protectedMiddleware from '../../middleware/protected-middleware'
+console.log('protectedMiddleware',protectedMiddleware)
  
 const handler = async(req,res) =>{
+	//console.log('dashboard req headers',req.headers)
+	protectedMiddleware(req,res)
+	console.log('req user',req.user);
 	//if(req.method == 'POST') {
 		let order = await Order.findOne().sort({deliveredAt:-1});
 		let activities = [];
