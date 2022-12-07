@@ -6,7 +6,6 @@ const handler = async(req,res) =>{
 	protectedMiddleware(req,res)
 	let order = await Order.findById(req.body.id);
 	if(order) {
-		console.log('in order deliver')
 		order.deliveryStatus = 'delivered';
 		order.deliveredAt = new Date();
 		await order.save();

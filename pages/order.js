@@ -17,7 +17,8 @@ const OrderDetail = ({order,user,clearCart,toastShow}) => {
 	const res = await fetch("/api/orderdeliver",{
       method: 'POST',
       headers: { 
-		'Content-Type': 'application/json'
+		'Content-Type': 'application/json',
+		'authorization':user.token
 	  },
       body: JSON.stringify({id:id})
     });  
