@@ -1,5 +1,6 @@
 import Product from '../../models/Product'
 import connectDb from '../../middleware/mongoose'
+import protectedMiddleware from '../../middleware/protected-middleware'
 const excelJS = require("exceljs");
 import fs from 'fs'
 import path from 'path'
@@ -8,6 +9,7 @@ const filePath = path.resolve('.', 'files/products.xlsx')
 const imageBuffer = fs.readFileSync(filePath)
 
 const handler = async(req,res) =>{
+	protectedMiddleware(req,res)
 	let products = await Product.find();
 	const workbook = new excelJS.Workbook();  // Create a new workbook
     const worksheet = workbook.addWorksheet("My Users"); // New Worksheet

@@ -1,7 +1,9 @@
 import Order from '../../models/Order'
 import connectDb from '../../middleware/mongoose'
+import protectedMiddleware from '../../middleware/protected-middleware'
  
 const handler = async(req,res) =>{
+	protectedMiddleware(req,res)
 	let order = await Order.findById(req.body.id);
 	if(order) {
 		order.deliveryStatus = 'delivered';

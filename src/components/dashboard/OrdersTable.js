@@ -11,6 +11,7 @@ import {
   Button,
 } from "@mui/material";
 import BaseCard from "../baseCard/BaseCard";
+import Link from 'next/link'
 
 const OrdersTable = ({orders}) => {
   const exportProduct = async (e) => {
@@ -20,9 +21,10 @@ const OrdersTable = ({orders}) => {
 	  headers: {
 		Accept:"application/vnd.ms-excel",
 		"Content-Type":"application/vnd.ms-excel",
+		'authorization':JSON.parse(localStorage.getItem('myuser')).token
 	  },
 	}).then(response =>response.blob())
-	  .then((blob) =>{
+	  .then((blob) =>{	  
 	  const href = window.URL.createObjectURL(blob);	  
 	  const link = document.createElement('a');
 	  link.href = href;
@@ -76,6 +78,11 @@ const OrdersTable = ({orders}) => {
 			<TableCell>
               <Typography color="textSecondary" variant="h6">
                 Ordered At
+              </Typography>
+            </TableCell>
+			<TableCell>
+              <Typography color="textSecondary" variant="h6">
+                Action
               </Typography>
             </TableCell>
           </TableRow>
@@ -137,6 +144,9 @@ const OrdersTable = ({orders}) => {
               </TableCell>
 			  <TableCell>
                 <Typography variant="h6">{new Date(order.createdAt).toISOString().split('T')[0]}</Typography>
+              </TableCell>
+			  <TableCell>
+                <Typography variant="h6"><Link href={'/order?id='+order._id}><Button variant="outlined">Deatils</Button></Link></Typography>
               </TableCell>
 			  
             </TableRow>

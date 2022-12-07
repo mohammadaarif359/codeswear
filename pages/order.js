@@ -16,7 +16,10 @@ const OrderDetail = ({order,user,clearCart,toastShow}) => {
   const deliverHandler = async(id) =>{
 	const res = await fetch("/api/orderdeliver",{
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+		'Content-Type': 'application/json',
+		'authorization':user.token
+	  },
       body: JSON.stringify({id:id})
     });  
     const response = await res.json();
@@ -56,7 +59,7 @@ const OrderDetail = ({order,user,clearCart,toastShow}) => {
             </div>
 			<div className="flex flex-col">
               <span className="title-font font-medium text-2xl text-gray-900">Delivery Status : {order.deliveryStatus}</span>
-			  {user && user.role && user.role == 'admin' && order.deliveryStatus != 'delivered' &&
+			  {user && user.role && user.role == 'admin' && order.deliveryStatus != 'delivered' && order.status == 'success' &&
 			  <div className='my-4'>
                 <button onClick={()=>{deliverHandler(order._id)}}className="flex mx-0 text-white bg-pink-500 border-0 py-2 px-6 focus:outline-none hover:bg-pink-600 rounded">Mark As Delivered</button>
               </div>}

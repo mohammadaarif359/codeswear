@@ -1,7 +1,6 @@
 import Order from '../../models/Order'
 import connectDb from '../../middleware/mongoose'
 import protectedMiddleware from '../../middleware/protected-middleware'
-console.log('protectedMiddleware',protectedMiddleware)
  
 const handler = async(req,res) =>{
 	//console.log('dashboard req headers',req.headers)
@@ -61,7 +60,7 @@ const handler = async(req,res) =>{
 		deliveries.map((deliver)=>{
 			deliveryData[deliver._id-1] = deliver.count;
 		})
-		return res.status(200).json({ success: 'dashboard dat get succesfully',activities,saleData,deliveryData,currentYear})
+		res.status(200).json({ success: 'dashboard dat get succesfully',activities,saleData,deliveryData,currentYear})
  	/*} else {
 		return res.status(500).json({ error: 'method not found' })
 	}*/
