@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import BaseCard from "../../src/components/baseCard/BaseCard";
 
-const AddProduct = ({logout}) => {
+const AddProduct = ({logout,toastShow}) => {
   const router = useRouter();	
   const [form,setForm] = useState({})
   const [error,setError] = useState({})
@@ -46,7 +46,7 @@ const AddProduct = ({logout}) => {
     res = await res.json();
 	setError({})
 	if(res.success) {
-		alert(res.success);
+		toastShow('success',res.success);
 		router.push('/admin/allproducts');
 		//setForm({})
 	} else if(res.errors) {
@@ -69,7 +69,7 @@ const AddProduct = ({logout}) => {
 		});}	
 		console.log('form error',error)
 	} else {
-		alert(res.error);
+		toastShow('error',res.error);
 	}
   }
   return (

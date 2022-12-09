@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import BaseCard from "../../src/components/baseCard/BaseCard";
 
-const EditProduct = ({toastShow}) => {
+const EditProduct = ({logout,toastShow}) => {
   const router = useRouter();
   console.log('id',router.query.id)
   const [productId,setProductId] = useState('')
