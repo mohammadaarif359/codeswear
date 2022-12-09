@@ -35,7 +35,10 @@ const AddProduct = ({logout}) => {
 	e.preventDefault();
 	let res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/addproducts`,{
 		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
+		headers: { 
+			'Content-Type': 'application/json',
+			'authorization':JSON.parse(localStorage.getItem('myuser')).token
+		},
 		body: JSON.stringify({data:[form]})
     });  
     res = await res.json();

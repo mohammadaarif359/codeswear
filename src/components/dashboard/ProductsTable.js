@@ -21,9 +21,11 @@ const ProductsTable = ({products}) => {
 	  headers: {
 		Accept:"application/vnd.ms-excel",
 		"Content-Type":"application/vnd.ms-excel",
+		'authorization':JSON.parse(localStorage.getItem('myuser')).token
 	  },
 	}).then(response =>response.blob())
 	  .then((blob) =>{
+	  console.log('blob',blob)	  
 	  const href = window.URL.createObjectURL(blob);	  
 	  const link = document.createElement('a');
 	  link.href = href;

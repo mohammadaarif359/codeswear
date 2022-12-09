@@ -38,7 +38,10 @@ const EditProduct = ({toastShow}) => {
 	const fetchProductData = async() =>{
 	  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/getproduct`,{
 		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
+		headers: { 
+			'Content-Type': 'application/json',
+			'authorization':JSON.parse(localStorage.getItem('myuser')).token
+		},
 		body: JSON.stringify({id:router.query.id})
       });  
       res = await res.json();
