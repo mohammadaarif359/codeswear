@@ -1,4 +1,5 @@
 import React,{useState} from 'react'
+import { Router, useRouter } from 'next/router'
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../src/theme/theme";
 import FullLayout from "../../src/layouts/FullLayout";
@@ -19,6 +20,7 @@ import {
 import BaseCard from "../../src/components/baseCard/BaseCard";
 
 const AddProduct = ({logout}) => {
+  const router = useRouter();	
   const [form,setForm] = useState({})
   const [error,setError] = useState({})
   
@@ -45,6 +47,7 @@ const AddProduct = ({logout}) => {
 	setError({})
 	if(res.success) {
 		alert(res.success);
+		router.push('/admin/allproducts');
 		//setForm({})
 	} else if(res.errors) {
 		let errors = res.errors;
